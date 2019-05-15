@@ -12,9 +12,20 @@
   === GameObject ===
   * createdAt
   * name
-  * dimensions (These represent the character's size in the video game)
+  * dimensions (These represent the chara  cter's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
+//GameObject Constructor
+function GameObject(GOattributes){
+  this.createdAt = GOattributes.createdAt;
+  this.name = GOattributes.name;
+  this.dimensions = GOattributes.dimensions;
+}
+//Methods for GameObject Constructor
+GameObject.prototype.destroy = function(){
+  return `${this.name} was removed from the game`;
+}
+
 
 /*
   === CharacterStats ===
@@ -22,6 +33,19 @@
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+//CharacterStats Constructor
+function CharacterStats(CSattributes) {
+  this.healthpoints = CSattributes.healthpoints;
+  GameObject.call(this, CSattributes);
+}
+
+//Inheritance
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
+//Methods for CharacterStats Constructor
+CharacterStats.prototype.takeDamage = function(){
+  return `${this.name} took damage`;
+}
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -32,7 +56,22 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- 
+//Humanoid Constructor
+function Humanoid(Hattributes){  
+  this.team = Hattributes.team; 
+  this.weapons = Hattributes.weapons; 
+  this.language = Hattributes.language; 
+  CharacterStats.call(this,Hattributes);
+}
+
+//Inheritance
+Humanoid.prototype = Object.create(CharacterStats.prototype); 
+
+//Methods for Humanoid
+Humanoid.prototype.greet = function() {
+  return `${this.name} offers a greeting in ${this.language}`; 
+}
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
